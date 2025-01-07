@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://postgres-sql-bsn:5432/book_social_network
+    url: jdbc:postgresql://localhost:5432/book_social_network
     username: username
     password: password
     driver-class-name: org.postgresql.Driver
@@ -34,3 +34,9 @@ application:
     jwt:
       secret_key: 4046E35266556A586E3272357538782F413F4428472B4B6250645367566B5970
       expiration: 8640000
+  mailing:
+    frontend:
+      activation-url: http://localhost:4200/activate-account
+
+server:
+  port: 8088

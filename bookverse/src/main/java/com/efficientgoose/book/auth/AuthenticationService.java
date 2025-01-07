@@ -7,12 +7,17 @@ import java.util.List;
 import com.efficientgoose.book.user.Token;
 import com.efficientgoose.book.user.TokenRepository;
 import com.efficientgoose.book.user.User;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.efficientgoose.book.email.EmailService;
+import com.efficientgoose.book.email.EmailTemplateName;
 import com.efficientgoose.book.role.RoleRepository;
 import com.efficientgoose.book.user.UserRepository;
 
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -23,8 +28,12 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
+    private final EmailService emailService;
 
-    public void register(RegistrationsRequest request) {
+    @Value("${application.mailing.frontend.activation-url}")
+    private String activationUrl;
+
+    public void register(RegistrationsRequest request) throws MessagingException {
         var userRole = roleRepository.findByName("USER")
                 .orElseThrow(() -> new IllegalStateException("Role USER was not initialised"));
 
@@ -40,24 +49,25 @@ public class AuthenticationService {
 
         userRepository.save(user);
         sendValidationEmail(user);
-
     }
 
-    private void sendValidationEmail(User user) {
+    private void sendValidationEmail(User user) throws MessagingException {
         var newToken = generateAndSaveActivationToken(user);
-        // send email
-        
+
+        emailService.sendEmail(user.getEmail(), user.getFullName(), EmailTemplateName.ACTIVATE_ACCOUNT, activationUrl,
+                newToken, "Account Activation");
+
     }
 
     private String generateAndSaveActivationToken(User user) {
         // generate a token
         String generatedToken = generateActivationToken(6);
         var token = Token.builder()
-                    .token(generatedToken)
-                    .createdAt(LocalDateTime.now())
-                    .expiresAt(LocalDateTime.now().plusMinutes(15))
-                    .user(user)
-                    .build();
+                .token(generatedToken)
+                .createdAt(LocalDateTime.now())
+                .expiresAt(LocalDateTime.now().plusMinutes(15))
+                .user(user)
+                .build();
 
         tokenRepository.save(token);
 
@@ -69,7 +79,7 @@ public class AuthenticationService {
         StringBuilder codeBuilder = new StringBuilder();
         SecureRandom secureRandom = new SecureRandom();
 
-        for(int i=0;i<length;i++){
+        for (int i = 0; i < length; i++) {
             int randomIndex = secureRandom.nextInt(characters.length());
             codeBuilder.append(characters.charAt(randomIndex));
         }

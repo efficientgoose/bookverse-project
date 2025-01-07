@@ -18,14 +18,14 @@ services:
     container_name: mail-dev-bsn
     image: maildev/maildev
     ports:
-      - "1080:80"
+      - "1080:1080"
       - "1025:25"
 
-  networks:
-    spring-demo:
-      driver: bridge
+networks:
+  spring-demo:
+    driver: bridge
 
 
-  volumes:
-    postgres:
-      driver: local
+volumes:
+  postgres:
+    driver: local
