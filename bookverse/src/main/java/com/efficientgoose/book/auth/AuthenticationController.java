@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
 @RestController
 @RequestMapping("auth")
 @RequiredArgsConstructor
@@ -29,7 +28,11 @@ public class AuthenticationController {
         service.register(request);
         return ResponseEntity.accepted().build();
     }
-    
 
+    @PostMapping
+    public ResponseEntity<AuthenticationResponse> authenticate(
+            @RequestBody @Valid AuthenticationRequest request) {
+        return ResponseEntity.ok(service.authenticate(request));
+    }
 
 }
