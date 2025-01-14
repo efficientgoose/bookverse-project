@@ -11,7 +11,7 @@ import com.efficientgoose.book.role.Role;
 import com.efficientgoose.book.role.RoleRepository;
 
 @SpringBootApplication
-@EnableJpaAuditing()
+@EnableJpaAuditing(auditorAwareRef = "auditorAware")
 @EnableAsync
 public class BookverseApiApplication {
 
@@ -20,12 +20,11 @@ public class BookverseApiApplication {
 	}
 
 	@Bean
-	public CommandLineRunner runner(RoleRepository roleRepository){
+	public CommandLineRunner runner(RoleRepository roleRepository) {
 		return args -> {
-			if(roleRepository.findByName("USER").isEmpty()){
+			if (roleRepository.findByName("USER").isEmpty()) {
 				roleRepository.save(
-					Role.builder().name("USER").build()
-				);
+						Role.builder().name("USER").build());
 			}
 		};
 	}
