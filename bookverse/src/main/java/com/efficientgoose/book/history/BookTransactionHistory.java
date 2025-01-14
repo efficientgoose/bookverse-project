@@ -19,7 +19,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class BookTranscationHistory extends BaseEntity{
+public class BookTransactionHistory extends BaseEntity{
 
     @ManyToOne
     @JoinColumn(name = "user_id")

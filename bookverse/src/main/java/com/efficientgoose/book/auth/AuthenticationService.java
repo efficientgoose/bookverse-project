@@ -15,7 +15,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.efficientgoose.book.email.EmailService;
 import com.efficientgoose.book.email.EmailTemplateName;
@@ -111,15 +110,16 @@ public class AuthenticationService {
     // @Transactional
     public void activateAccount(String token) throws MessagingException {
         Token savedToken = tokenRepository.findByToken(token)
-                            .orElseThrow(() -> new RuntimeException("Invalid Token"));
+                .orElseThrow(() -> new RuntimeException("Invalid Token"));
 
-        if(LocalDateTime.now().isAfter(savedToken.getExpiresAt())){
+        if (LocalDateTime.now().isAfter(savedToken.getExpiresAt())) {
             sendValidationEmail(savedToken.getUser());
-            throw new RuntimeException("Activation token has expired. A new token has been sent to the same email address.");
+            throw new RuntimeException(
+                    "Activation token has expired. A new token has been sent to the same email address.");
         }
 
         var user = userRepository.findById(savedToken.getUser().getId())
-                    .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         user.setEnabled(true);
         userRepository.save(user);

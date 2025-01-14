@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.efficientgoose.book.common.BaseEntity;
 import com.efficientgoose.book.feedback.Feedback;
-import com.efficientgoose.book.history.BookTranscationHistory;
+import com.efficientgoose.book.history.BookTransactionHistory;
 import com.efficientgoose.book.user.User;
 
 import jakarta.persistence.Entity;
@@ -42,7 +42,7 @@ public class Book extends BaseEntity {
     private List<Feedback> feedbacks;
 
     @OneToMany(mappedBy = "book")
-    private List<BookTranscationHistory> histories;
+    private List<BookTransactionHistory> histories;
 
     @Transient
     public double getRate() {

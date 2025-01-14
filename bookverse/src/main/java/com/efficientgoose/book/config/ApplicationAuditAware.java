@@ -11,6 +11,7 @@ import com.efficientgoose.book.user.User;
 
 public class ApplicationAuditAware implements AuditorAware<Integer> {
 
+    @SuppressWarnings("null")
     @Override
     public Optional<Integer> getCurrentAuditor() {
 
