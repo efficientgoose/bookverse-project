@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.efficientgoose.book.exception.OperationNotPermittedException;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.mail.MessagingException;
 
 import static com.efficientgoose.book.handler.BusinessErrorCodes.ACCOUNT_LOCKED;
@@ -24,6 +25,7 @@ import static com.efficientgoose.book.handler.BusinessErrorCodes.ACCOUNT_DISABLE
 import static com.efficientgoose.book.handler.BusinessErrorCodes.BAD_CREDENTIALS;;
 
 @RestControllerAdvice
+@Hidden
 public class GlobalExceptionHandler {
 
         @ExceptionHandler(LockedException.class)

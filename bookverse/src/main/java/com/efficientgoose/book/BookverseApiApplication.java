@@ -5,12 +5,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 import com.efficientgoose.book.role.Role;
 import com.efficientgoose.book.role.RoleRepository;
 
 @SpringBootApplication
+@EnableJpaRepositories
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")
 @EnableAsync
 public class BookverseApiApplication {
