@@ -20,6 +20,7 @@
     "@angular/platform-browser-dynamic": "^16.2.0",
     "@angular/router": "^16.2.0",
     "@fortawesome/fontawesome-free": "^6.7.2",
+    "angular-code-input": "^2.0.0",
     "book-network-ui": "file:",
     "bootstrap": "^5.3.3",
     "ng-openapi-gen": "^0.52.0",
