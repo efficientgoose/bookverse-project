@@ -27,10 +27,10 @@ export class LoginComponent {
       })
       .subscribe({
         next: (res) => {
+          console.log('The token received: ' + res.token);
           this.tokenService.token = res.token as string;
 
           this.router.navigate(['books']);
-          console.log(res);
         },
         error: (err) => {
           console.log(err.error); // Log error response for debugging
